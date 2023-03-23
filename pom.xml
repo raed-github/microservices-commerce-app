@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.0.4</version>
+    <version>2.7.2</version>
     <relativePath></relativePath>
   </parent>
   <groupId>com.rsaad</groupId>
@@ -14,6 +14,8 @@
   <packaging>pom</packaging>
   <modules>
     <module>product-service</module>
+      <module>order-service</module>
+    <module>inventory-service</module>
   </modules>
   <properties>
     <maven.compiler.target>17</maven.compiler.target>
@@ -29,7 +31,7 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-      <!--
+
       <dependency>
         <groupId>org.testcontainers</groupId>
         <artifactId>testcontainers-bom</artifactId>
@@ -37,7 +39,7 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-      -->
+
     </dependencies>
   </dependencyManagement>
   <build>
