@@ -1,5 +1,6 @@
 package com.rsaad.orderservice.exceptions.controller;
 
+import com.rsaad.orderservice.exceptions.ErrorProcessingOrderException;
 import com.rsaad.orderservice.exceptions.OrderNotFoundException;
 import com.rsaad.orderservice.exceptions.validation.ErrorResult;
 import com.rsaad.orderservice.exceptions.validation.FieldValidationError;
@@ -16,6 +17,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class OrderExceptionController {
     @ExceptionHandler(value = OrderNotFoundException.class)
     public ResponseEntity<Object> exception(OrderNotFoundException exception){
+        System.out.println(exception.getMessage());
+        return new ResponseEntity<Object>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(value = ErrorProcessingOrderException.class)
+    public ResponseEntity<Object> exception(ErrorProcessingOrderException exception){
         System.out.println(exception.getMessage());
         return new ResponseEntity<Object>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }

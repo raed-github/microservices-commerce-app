@@ -19,6 +19,13 @@ target/
 *.iml
 *.ipr
 
+### Exclude services
+eureka-discovery-server
+gateway-server
+gateway-server
+order-service
+product-service
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
