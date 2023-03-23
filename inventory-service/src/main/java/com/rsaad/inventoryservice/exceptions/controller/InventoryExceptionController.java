@@ -20,19 +20,6 @@ public class InventoryExceptionController {
         return new ResponseEntity<Object>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(value = InterruptedException.class)
-    public ResponseEntity<Object> exception(InterruptedException exception){
-        System.out.println(exception.getMessage());
-        return new ResponseEntity<Object>(exception.getMessage(), HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<Object> exception(Exception exception){
-        System.out.println(exception.getMessage());
-        return new ResponseEntity<Object>(exception.getMessage(), HttpStatus.NOT_FOUND);
-    }
-
-
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     @ResponseBody
