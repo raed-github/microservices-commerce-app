@@ -1,12 +1,8 @@
 package com.rsaad.inventoryservice.controller;
 
-import com.rsaad.inventoryservice.dto.InventoryResponse;
 import com.rsaad.inventoryservice.service.InventoryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/inventories")

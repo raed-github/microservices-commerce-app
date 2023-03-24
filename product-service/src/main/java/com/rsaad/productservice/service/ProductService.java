@@ -7,6 +7,6 @@ import com.rsaad.productservice.dto.ProductResponse;
 
 public interface ProductService {
 	
-	public void createProduct(ProductRequest productRequest);
-	public List<ProductResponse> getAllProducts();
+	void createProduct(ProductRequest productRequest);
+	List<ProductResponse> getAllProducts();
 }
