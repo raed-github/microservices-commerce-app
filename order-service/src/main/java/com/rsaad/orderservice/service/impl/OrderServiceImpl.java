@@ -42,7 +42,8 @@ public class OrderServiceImpl implements OrderService {
     private StreamBridge streamBridge;
 
     public String placeOrder(OrderRequest orderRequest) {
-             Order order = DtoMapper.maptToOrder(orderRequest);
+        Order order = DtoMapper.maptToOrder(orderRequest);
+        order.setOrderNumber(UUID.randomUUID().toString());
         Resilience4JCircuitBreaker circuitBreaker = circuitBreakerFactory.create("inventory");
         Supplier<Boolean> booleanSupplier = () -> order.getOrderLineItemsList().stream()
                 .allMatch(orderLineItems -> inventoryClient.checkStock(orderLineItems.getSkuCode()));
