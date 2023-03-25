@@ -5,5 +5,6 @@ import com.rsaad.inventoryservice.dto.InventoryResponse;
 import java.util.List;
 
 public interface InventoryService {
-    Boolean isInStock(String skuCode);
-}
+    public Boolean isInStock(String skuCode);
+    public List<InventoryResponse> findInventoriesBySkuCode(List<String> skuCodes);
+    }
