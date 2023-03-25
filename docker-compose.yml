@@ -1,80 +1,52 @@
 version: '3.7'
 services:
-  ## MySQL Docker Compose Config
-  postgres-order:
-    container_name: postgres-order
-    image: postgres
-    environment:
-      POSTGRES_DB: order-service
-      POSTGRES_USER: ptechie
-      POSTGRES_PASSWORD: password
-      PGDATA: /data/postgres
-    volumes:
-      - ./postgres-order:/data/postgres
-    expose:
-      - "5431"
-    ports:
-      - "5431:5431"
-    command: -p 5431
-    restart: always
-
-  postgres-inventory:
-    container_name: postgres-inventory
-    image: postgres
-    environment:
-      POSTGRES_DB: inventory-service
-      POSTGRES_USER: ptechie
-      POSTGRES_PASSWORD: password
-      PGDATA: /data/postgres
-    volumes:
-      - ./postgres-inventory:/data/postgres
-    ports:
-      - "5432:5432"
-    restart: always
-
-  ## Mongo Docker Compose Config
-  mongo:
-    container_name: mongo
-    image: mongo:4.4.14-rc0-focal
-    restart: always
+  mongodb:
+    image: docker.io/bitnami/mongodb:latest
+    container_name: 'bitnami-mongodb-dev'
     ports:
       - "27017:27017"
     expose:
-      - "27017"
+      - '27017'
     volumes:
       - ./mongo-data:/data/db
-
-  ## Keycloak Config with Mysql database
-  keycloak-mysql:
-    container_name: keycloak-mysql
-    image: mysql:5.7
-    volumes:
-      - ./mysql_keycloak_data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: keycloak
-      MYSQL_USER: keycloak
-      MYSQL_PASSWORD: password
+      - MONGODB_DISABLE_SYSTEM_LOG=true
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MONGODB_SYSTEM_LOG_VERBOSITY=3
+    networks:
+      - app-tier
 
-  keycloak:
-    container_name: keycloak
-    image: quay.io/keycloak/keycloak:18.0.0
-    command: [ "start-dev", "--import-realm" ]
-    environment:
-      DB_VENDOR: MYSQL
-      DB_ADDR: mysql
-      DB_DATABASE: keycloak
-      DB_USER: keycloak
-      DB_PASSWORD: password
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
+  mysql:
+    image: docker.io/bitnami/mysql:latest
+    container_name: 'bitnami-mysql-dev'
     ports:
-      - "8080:8080"
+      - '3306:3306'
+    expose:
+      - '3306'
     volumes:
-      - ./realms/:/opt/keycloak/data/import/
-    depends_on:
-      - keycloak-mysql
+      - ./mysql_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_USER=admin
+      - MYSQL_ROOT_PASSWORD=admin
+    healthcheck:
+      test: [ 'CMD', '/opt/bitnami/scripts/mysql/healthcheck.sh' ]
+      interval: 15s
+      timeout: 5s
+      retries: 6
+    networks:
+      - app-tier
 
+  rabbitmq:
+    image: 'bitnami/rabbitmq:latest'
+    container_name: 'bitnami-rabbitmq-dev'
+    environment:
+      - RABBITMQ_USERNAME=rabbitmq
+      - RABBITMQ_PASSWORD=rabbitmq
+      - RABBITMQ_ERL_COOKIE=s3cr3tc00ki3
+    ports:
+      - 5672:5672
+      - 15672:15672
+  
   zookeeper:
     image: confluentinc/cp-zookeeper:7.0.1
     container_name: zookeeper
