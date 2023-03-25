@@ -8,6 +8,7 @@ target/
 mongo-data
 mysql_keycloak_data
 realms
+docker-compose.yml
 ### STS ###
 .apt_generated
 .classpath
